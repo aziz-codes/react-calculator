@@ -1,18 +1,37 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 const reducer = (state, action) => {
-  if (action.type === "+") {
-    console.log(state.num1 + state.num2);
+  switch (action.type) {
+    case "+":
+      return {
+        sum: action.num + action.num1,
+      };
+    case "-":
+      return {
+        sum: action.num - action.num1,
+      };
+    case "*":
+      return {
+        sum: action.num * action.num1,
+      };
+    case "/":
+      return {
+        sum: action.num / action.num1,
+      };
+    default:
+      return state;
   }
 };
 const Test = () => {
-  const [state, dispatch] = useReducer(reducer, { num1: 30, num2: 30 });
+  const [num1, setNum1] = useState(3);
+  const [num, setNum] = useState(4);
+  const [state, dispatch] = useReducer(reducer, { sum: 0 });
   return (
     <div className="my-20 mx-40 flex flex-col gap-4">
-      {/* <label>{state.age}</label> */}
+      <label>{state.sum}</label>
       <button
         className="bg-sky-500 p-1 rounded-md"
         onClick={() => {
-          dispatch({ type: "+" });
+          dispatch({ type: "+", num1, num });
         }}
       >
         +
@@ -20,7 +39,7 @@ const Test = () => {
       <button
         className="bg-sky-500 p-1 rounded-md"
         onClick={() => {
-          dispatch({ type: "-" });
+          dispatch({ type: "-", num1, num });
         }}
       >
         -
@@ -28,7 +47,7 @@ const Test = () => {
       <button
         className="bg-sky-500 p-1 rounded-md"
         onClick={() => {
-          dispatch({ type: "*" });
+          dispatch({ type: "*", num1, num });
         }}
       >
         *
@@ -36,7 +55,7 @@ const Test = () => {
       <button
         className="bg-sky-500 p-1 rounded-md"
         onClick={() => {
-          dispatch({ type: "/" });
+          dispatch({ type: "/", num1, num });
         }}
       >
         /
