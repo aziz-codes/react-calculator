@@ -1,7 +1,8 @@
 import React from "react";
+import Calculator from "./components/Calculator";
 
 const App = () => {
-  return <div className="text-red-500">App</div>;
+  return <Calculator />;
 };
 
 export default App;
