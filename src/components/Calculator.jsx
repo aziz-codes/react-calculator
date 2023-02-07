@@ -1,6 +1,24 @@
-import React from "react";
-
+import React, { useReducer, useState } from "react";
+const reducer = (state, action) => {
+  switch (action.type) {
+    case action.type === "+":
+      return num + 2;
+    case action.type === "-":
+      return num - 1;
+    case action.type === "x":
+      return num * 1;
+    case action.type === "/":
+      return num / 1;
+    default:
+      return state;
+  }
+};
 const Calculator = () => {
+  let initialValue = "";
+  const [operator, dispatch] = useReducer(reducer, initialValue);
+  const [num, setNum] = useState(0);
+  const [text, setText] = useState("");
+
   const items = [
     "%",
     "C",
@@ -19,12 +37,19 @@ const Calculator = () => {
     "3",
     "+",
   ];
-  const handleButton = (button) => {
-    alert(button);
+  console.log(operator);
+  const handleValue = (val) => {
+    if (+val) {
+      setNum(num);
+    } else {
+      dispatch({ type: val });
+    }
   };
+
   return (
     <section className="flex justify-center my-20 w-full container">
       <div className="border shadow-md rounded-sm flex flex-col flex-wrap w-64 justify-center items-center pb-2">
+        <label>{operator}</label>
         <div className="w-full px-1">
           <input
             type="text"
@@ -38,7 +63,7 @@ const Calculator = () => {
               key={item}
               className="p-1 border w-14 h-10 rounded-md font-bold hover:ring-1"
               onClick={() => {
-                handleButton(item);
+                handleValue(item);
               }}
             >
               {item}
