@@ -1,8 +1,8 @@
 import React from "react";
-import Test from "./components/Test";
+import Calculator from "./components/Calculator";
 
 const App = () => {
-  return <Test />;
+  return <Calculator />;
 };
 
 export default App;

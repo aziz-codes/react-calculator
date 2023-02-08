@@ -1,22 +1,6 @@
-import React, { useReducer, useState } from "react";
-const reducer = (state, action) => {
-  switch (action.type) {
-    case action.type === "+":
-      return num + 2;
-    case action.type === "-":
-      return num - 1;
-    case action.type === "x":
-      return num * 1;
-    case action.type === "/":
-      return num / 1;
-    default:
-      return state;
-  }
-};
+import React, { useState } from "react";
+
 const Calculator = () => {
-  let initialValue = "";
-  const [operator, dispatch] = useReducer(reducer, initialValue);
-  const [num, setNum] = useState(0);
   const [text, setText] = useState("");
 
   const items = [
@@ -27,7 +11,7 @@ const Calculator = () => {
     "7",
     "8",
     "9",
-    "x",
+    "*",
     "4",
     "5",
     "6",
@@ -37,24 +21,34 @@ const Calculator = () => {
     "3",
     "+",
   ];
-  console.log(operator);
   const handleValue = (val) => {
-    if (+val) {
-      setNum(num);
-    } else {
-      dispatch({ type: val });
+    if (val === "C") {
+      handleClear();
+    } else if (val === "CE") {
+      setText(text.slice(0, -1));
+    } else setText(text.concat(val));
+  };
+  const handleClear = () => {
+    setText("");
+  };
+
+  const claculateResult = () => {
+    try {
+      setText(eval(text).toString());
+    } catch (err) {
+      setText("Error");
     }
   };
 
   return (
     <section className="flex justify-center my-20 w-full container">
       <div className="border shadow-md rounded-sm flex flex-col flex-wrap w-64 justify-center items-center pb-2">
-        <label>{operator}</label>
         <div className="w-full px-1">
           <input
             type="text"
-            defaultValue={0}
-            className="outline-none font-semibold tracking-tight p-1 px-1 border w-full  mt-2"
+            className="outline-none font-semibold tracking-tight p-1 px-1 border w-full  mt-2 text-right"
+            readOnly
+            value={text}
           />
         </div>
         <div className="relative flex flex-row flex-wrap gap-2 mt-2 justify-center">
@@ -69,7 +63,10 @@ const Calculator = () => {
               {item}
             </button>
           ))}
-          <button className="px-2 relative w-full rounded-sm border mx-2 hover:ring-1">
+          <button
+            className="px-2 relative w-full rounded-sm border mx-2 hover:ring-1"
+            onClick={claculateResult}
+          >
             ==
           </button>
         </div>
